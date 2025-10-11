@@ -41,7 +41,7 @@ import { nextTick, ref, watch, computed } from 'vue';
 import { Connection, CirclePlus } from '@element-plus/icons-vue'
 import AddFriends from './AddFriends.vue';
 import { useFriendsStore } from '../../stores/friendStore'
-import api from '../../../api'
+import api from '../../api'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 
 const addVisible = ref(false)

@@ -58,7 +58,7 @@ import {
   getHistoryMessages,
   onSocketEvent,
   type Message
-} from '../../../utils/socket'
+} from '@/utils/socket'
 
 import { useUserStore } from '@/stores/userStore'
 import { useFriendsStore } from '@/stores/friendStore'
@@ -251,6 +251,7 @@ const resetMessages = () => {
     height: 0,
     firstMessageId: ''
   }
+  content.value = [] // 清空正在发送的消息
   closeContextMenu()
 }
 
@@ -397,15 +398,23 @@ const timeGroupedMessages = computed(() => {
     (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   )
 
+  // 再次去重，确保消息列表中没有重复的消息
+  const seenIds = new Set<string>()
+  const uniqueSortedMessages = sortedMessages.filter(msg => {
+    if (seenIds.has(msg._id)) return false
+    seenIds.add(msg._id)
+    return true
+  })
+
   const groups: Array<{ groupTime: Date; messages: any[] }> = []
 
-  if (sortedMessages.length === 0) return groups
+  if (uniqueSortedMessages.length === 0) return groups
 
-  let currentGroup: any[] = [sortedMessages[0]]
-  let lastMessageTime = new Date(sortedMessages[0].timestamp)
+  let currentGroup: any[] = [uniqueSortedMessages[0]]
+  let lastMessageTime = new Date(uniqueSortedMessages[0].timestamp)
 
-  for (let i = 1; i < sortedMessages.length; i++) {
-    const currentMessage = sortedMessages[i]
+  for (let i = 1; i < uniqueSortedMessages.length; i++) {
+    const currentMessage = uniqueSortedMessages[i]
     const currentTime = new Date(currentMessage.timestamp)
 
     // 计算与上一条消息的时间差（分钟）
@@ -439,22 +448,39 @@ const timeGroupedMessages = computed(() => {
 
 // 合并所有消息（历史消息 + 正在发送的消息）
 const allMessages = computed(() => {
-  const historyMessages = messages.value.map(msg => ({
-    ...msg,
-    isSending: false
-  }))
+  // 创建一个消息ID集合，用于检测重复消息
+  const messageIds = new Set<string>()
+  const uniqueMessages: any[] = []
 
-  const sendingMessages = content.value.map((text, index) => ({
-    _id: `sending_${Date.now()}_${index}`,
-    content: text,
-    type: 'text' as const,
-    fromUserId: userStore.user.id,
-    toUserId: userStore.toUserId,
-    timestamp: new Date().toISOString(),
-    isSending: true
-  }))
+  // 添加历史消息，确保唯一性
+  messages.value.forEach(msg => {
+    if (!messageIds.has(msg._id)) {
+      messageIds.add(msg._id)
+      uniqueMessages.push({
+        ...msg,
+        isSending: false
+      })
+    }
+  })
 
-  return [...historyMessages, ...sendingMessages]
+  // 添加正在发送的消息
+  content.value.forEach((text, index) => {
+    const sendingId = `sending_${userStore.toUserId}_${index}`
+    if (!messageIds.has(sendingId)) {
+      messageIds.add(sendingId)
+      uniqueMessages.push({
+        _id: sendingId,
+        content: text,
+        type: 'text' as const,
+        fromUserId: userStore.user.id,
+        toUserId: userStore.toUserId,
+        timestamp: new Date().toISOString(),
+        isSending: true
+      })
+    }
+  })
+
+  return uniqueMessages
 })
 
 // 格式化分组时间显示

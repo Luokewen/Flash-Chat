@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import api from '../../api'
+import api from '../api'
 import { ElMessage } from 'element-plus'
 import type { UserResponse } from '../../types/user'
 import { useUserStore } from '../stores/userStore'

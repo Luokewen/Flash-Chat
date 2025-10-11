@@ -36,4 +36,11 @@ UserSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 }
 
+// 修改密码方法
+UserSchema.methods.updatePassword = async function(newPassword) {
+  this.password = newPassword;
+  await this.save();
+  return true;
+}
+
 module.exports = mongoose.model('User', UserSchema);

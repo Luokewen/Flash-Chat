@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import type { Message } from '../../utils/socket'
 
 export const useMessageStore = defineStore('messageStore', {
   state: () => ({

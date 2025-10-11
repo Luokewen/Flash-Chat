@@ -50,7 +50,7 @@
 import { ref, watch, computed } from 'vue'
 import { Search, Loading } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import api from '../../../api'
+import api from '../../api'
 import { useUserStore } from '@/stores/userStore'
 
 // 定义事件类型

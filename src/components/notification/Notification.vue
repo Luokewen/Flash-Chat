@@ -55,7 +55,7 @@
 import { useMessageStore } from '@/stores/messageStore'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '@/stores/userStore'
-import api from '../../../api'
+import api from '../../api'
 import type { FriendListItem } from '../../../types/friends'
 import { useFriendsStore } from '@/stores/friendStore'
 

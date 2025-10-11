@@ -1,4 +1,4 @@
-import request from '../utils/request'
+import request from '@/utils/request'
 // 搜索用户
 export const searchUsers = (data: {
   keyword: string

@@ -39,7 +39,7 @@ const handleNewLine = (e: KeyboardEvent) => {
 import {
   sendMessage,
   type Message
-} from '../../../utils/socket'
+} from '@/utils/socket'
 
 // 存储消息列表
 const messages = ref<Message[]>([])

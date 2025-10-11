@@ -99,3 +99,57 @@ const sendTokenResponse = (user, statusCode, res) => {
      }
   });
 };
+
+// @desc    修改密码
+// @route   PUT /api/auth/password
+// @access  Private
+exports.updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, userId } = req.body;
+    
+    // 验证请求数据
+    if (!currentPassword || !newPassword || !userId) {
+      return res.status(400).json({
+        code: 400,
+        success: false,
+        message: '请提供当前密码、新密码和用户ID'
+      });
+    }
+    
+    // 查找用户
+    const user = await User.findById(userId).select('+password');
+    if (!user) {
+      return res.status(404).json({
+        code: 404,
+        success: false,
+        message: '用户不存在'
+      });
+    }
+    
+    // 验证当前密码
+    const isMatch = await user.matchPassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({
+        code: 401,
+        success: false,
+        message: '当前密码错误'
+      });
+    }
+    
+    // 修改密码
+    await user.updatePassword(newPassword);
+    
+    return res.status(200).json({
+      code: 200,
+      success: true,
+      message: '密码修改成功'
+    });
+  } catch (err) {
+    res.status(500).json({
+      code: 500,
+      success: false,
+      message: '服务器错误',
+      error: err.message
+    });
+  }
+};

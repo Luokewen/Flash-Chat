@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <showSetting v-if="activeIndex === 3" />
+    <showSetting v-model:visible="settingVisible" />
     <logout-dialog v-if="activeIndex === 2" />
     <div class="aside">
       <div class="logo">
@@ -8,7 +8,7 @@
       </div>
       <div class="user-avatar">
         <el-avatar :size="45" :src="avatarUrl" @error="errorHandler">
-          <img src="../assets/avatar/error-avatar.png" />
+          <img src="@/assets/avatar/error-avatar.png" />
         </el-avatar>
       </div>
       <div class="menu">
@@ -59,6 +59,7 @@ const activeIndex = ref(0) // 默认选中第一个菜单
 const activeColor = ref('#409EFF') // 选中时的图标颜色
 const defaultColor = ref('#606266') // 未选中时的默认颜色
 const activeBgColor = ref('#DCDCDC') // 选中时的背景颜色
+const settingVisible = ref(false) // 控制设置对话框显示状态
 
 const emit = defineEmits(['sendData']) // 定义一个事件，用于向父组件传递数据
 // 点击菜单项时触发
@@ -69,6 +70,9 @@ const handleclick = (index: number) => {
     router.push('/')
   } else if (index === 1) {
     router.push('/home/infoPage')
+  } else if (index === 3) {
+    // 点击设置按钮时显示设置对话框
+    settingVisible.value = true
   }
 }
 

@@ -164,7 +164,7 @@ import { ElMessage, ElMessageBox, type PopoverInstance } from 'element-plus'
 import type { FriendInfo } from '@/../types/friends'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
-import api from '@/../api'
+import api from '@/api'
 
 const router = useRouter()
 const friendsStore = useFriendsStore()

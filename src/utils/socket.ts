@@ -1,5 +1,5 @@
 import io, { Socket } from 'socket.io-client'
-import { useUserStore } from '../src/stores/userStore'
+import { useUserStore } from '@/stores/userStore'
 
 // 消息类型定义
 export interface Message {
