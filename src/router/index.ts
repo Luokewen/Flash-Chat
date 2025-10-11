@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // 使用动态导入方式加载登录视图组件
 // 这种方式可以实现组件的懒加载，提高首屏加载速度
 // 导入登录页面
-const LoginView = () => import('../views/Login.vue')
+const LoginView = () => import('../views/LoginPage.vue')
 // 导入首页页面
 const HomeView = () => import('../views/Home.vue')
 // 导入404页面

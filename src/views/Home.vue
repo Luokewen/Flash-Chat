@@ -38,6 +38,8 @@ import type { FriendListItem, FriendRequestList } from '../../types/friends';
 import { useFriendsStore } from '@/stores/friendStore';
 import Badge from '@/components/badge/Badge.vue';
 import Notification from '@/components/notification/Notification.vue';
+import { ElMessage, ElNotification } from 'element-plus';
+import type { UserInfo } from '../../types/userInfo';
 
 const router = useRouter();
 

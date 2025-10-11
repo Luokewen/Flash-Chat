@@ -1,6 +1,6 @@
-const userRouter = require('../routes/auth.js')
-const userInfoRouter = require('../routes/userInfo.js')
-const friendRouter = require('../routes/friend.js')
+import userRouter from '../routes/auth.js'
+import userInfoRouter from '../routes/userInfo.js'
+import friendRouter from '../routes/friend.js'
 
 /**
  * 配置路由中间件
@@ -13,4 +13,4 @@ const router = app => {
   app.use('/api', friendRouter)
 }
 
-module.exports = router
+export default router

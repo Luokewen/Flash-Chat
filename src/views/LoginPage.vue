@@ -23,6 +23,7 @@ import { ElMessage } from 'element-plus'
 import type { UserResponse } from '../../types/user'
 import { useUserStore } from '../stores/userStore'
 import type { UserInfo } from '../../types/userInfo'
+import type { FormInstance } from 'element-plus'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -46,16 +47,16 @@ const formRules = {
 }
 
 // 登录表单引用
-const loginForm = ref<any>(null)
+const loginForm = ref<FormInstance | null>(null)
 
 // 处理登录
 const handleLogin = async () => {
   try {
     // 表单验证
-    await loginForm.value.validate()
+    await loginForm.value?.validate()
 
     // 调用登录API
-    const response: any = await api.user.login(form)
+    const response = await api.user.login(form)
     const res: UserResponse = response.data
 
     // 保存token
@@ -76,10 +77,10 @@ const handleLogin = async () => {
 const handleRegister = async () => {
   try {
     // 表单验证
-    await loginForm.value.validate()
+    await loginForm.value?.validate()
 
     // 调用注册API
-    const response: any = await api.user.register(form)
+    const response = await api.user.register(form)
     const res: UserResponse = response.data
     console.log(res)
     if (res && res.message === 'success') {
@@ -96,7 +97,7 @@ const handleRegister = async () => {
       }
       )
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('注册失败:', error);
   }
 }

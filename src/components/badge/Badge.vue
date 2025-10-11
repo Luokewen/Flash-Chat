@@ -13,7 +13,7 @@ import { ref, watch } from 'vue';
 import Notification from '../notification/Notification.vue';
 
 const userStore = useMessageStore();
-let count = ref(userStore.friendRequestCount);
+const count = ref(userStore.friendRequestCount);
 
 const notificationVisible = ref(false);
 

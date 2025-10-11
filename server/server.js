@@ -3,7 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const { Server } = require('socket.io')
-const routerInit = require('./config/router')
+const routerInit = require('./config/router').default
 const { verifyJwt } = require('./utils/jwt')
 const PrivateMessage = require('./models/privateMessage')
 
